@@ -1,25 +1,40 @@
+
+if(process.env.NODE_ENV != " production"){
+  require('dotenv').config();
+}
+
+
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const Listing = require("./models/listing.js");
-const Review = require("./models/review.js");
+
 const path = require("path");
 const methodOverride = require("method-override");
 const ejsmate = require("ejs-mate");
-const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
-const wrapAsync = require("./utils/wrapasync.js");
+
+
+
+
+const dburl = process.env.ATLASDB_URL;
+
+
+
 const expresserror = require("./utils/expresserror.js");
-const {listingSchema} =require("./schema.js");
-const {reviewSchema} =require("./schema.js");
-const review = require("./models/review.js");
 
 const session = require("express-session");
+const MongoStore = require('connect-mongo');
+
+
+
 const flash = require("connect-flash");
 
-const listings = require("./routes/listing.js");
-const reviews = require("./routes/review.js");
+const listingrouter = require("./routes/listing.js");
+const reviewrouter = require("./routes/review.js");
+const userrouter = require("./routes/user.js");
 
-
+const passport = require("passport");
+const localstrategy = require("passport-local");
+const user = require("./models/user.js");
 
 
 main()
@@ -31,7 +46,7 @@ main()
   });
 
 async function main() {
-  await mongoose.connect(MONGO_URL);
+  await mongoose.connect(dburl);
 }
 
 app.set("view engine", "ejs");
@@ -42,8 +57,23 @@ app.engine("ejs" , ejsmate);
 app.use(express.static(path.join(__dirname,"/public")));
 
 
+const store = MongoStore.create({
+  mongoUrl: dburl,
+ crypto: {
+  secret: process.env.SECRET,
+ },
+touchAfter:24*3600,
+
+});
+
+store.on("error", function (e) {
+  console.log("session store error", e);
+}
+);
+
 const sessionoptions  ={
-  secret: "mysupersecretstring" ,
+  store,
+  secret: process.env.SECRET,
   resave: false , 
   saveUninitialized: true,
   cookie: {
@@ -55,29 +85,52 @@ const sessionoptions  ={
 };
 
 
+
+
+
+
+
+
 app.use(session(sessionoptions));
 app.use(flash());
 
+
+// passport use session 
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new localstrategy(user.authenticate()));
+
+passport.serializeUser(user.serializeUser());
+passport.deserializeUser(user.deserializeUser());
+
+
+
+// middleware
 app.use((req,res,next)=>
 {
   res.locals.sucess =req.flash("sucess");
   res.locals.error = req.flash("error");
+  res.locals.curruser = req.user;
   next();
-})
-
-
-
-
-app.get("/", (req, res) => {
-  res.send("Hi, I am root");
 });
 
 
 
-app.use("/listings", listings);
-app.use("/listings/:id/reviews" , reviews);
+
+
+app.use("/listings", listingrouter);
+app.use("/listings/:id/reviews" , reviewrouter);
+app.use("/" , userrouter);
 
  
+
+
+
+
+
+
+
 
 app.all("*" ,(req,res,next)=>{
  next( new expresserror(404,"page do you find is not available"));
@@ -91,6 +144,8 @@ app.use((err,req,res,next)=>{
 
   // res.status(statuscode).send(message);
 });
+
+
 
 
 app.listen(8080, () => {

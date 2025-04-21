@@ -1,35 +1,33 @@
-body{
-    font-family: "Plus Jakarta Sans", sans-serif !important;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
 
-
-.navbar{
+* {
+    font-family: " Jakarta ", sans-serif;
+  }
+  
+  
+  .navbar{
     height: 5rem;
     background-color: white;
-}
-
-.fa-compass{
+  }
+  
+  .fa-compass{
     color: #fe424d;
     font-size: 2rem;
-}
-
-.nav-link{
+  }
+  
+  .nav-link{
     color: #222222 !important;
-}
-
-.f-info-links a{
+  }
+  
+  .f-info-links a{
     text-decoration: none;
     color: #222222;
-}
-
-.f-info-links a:hover{
+  }
+  
+  .f-info-links a:hover{
     text-decoration: underline;
   
-}
-.f-info{
+  }
+  .f-info{
     vertical-align: middle;
     text-align: center;
     height: 8rem;
@@ -38,78 +36,72 @@ body{
     flex-wrap: wrap;
     justify-content: center;
     align-items: space-evenly;
-}
-
-
-.f-info-links{
+  }
+  
+  
+  .f-info-links{
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 1rem;
-}
-
-.f-info-socials,.f-info-brand{
+  }
+  
+  .f-info-socials,.f-info-brand{
     width: 100%;
     font-size: 1.2rem;
     margin-right: 1rem;
     display: flex;
     align-items: center;
     justify-content: center;
-}
-.f-info-socials i{
+  }
+  .f-info-socials i{
     margin-right: 1rem;
-}
-
-.listing-card{
+  }
+  
+  .listing-card{
     border: none !important;
     margin-bottom: 2rem;
-}
-.card-img-top{
+  }
+  .card-img-top{
     border-radius: 1rem !important;
     width: 100% !important;
     object-fit: cover !important;
-}
-.card-body{
+  }
+  .card-body{
     padding: 0 !important;
-}
-
-.listing-link{
+  }
+  
+  .listing-link{
     text-decoration: none;
-}
-
-.card-img-overlay:hover{
+  }
+  
+  .card-img-overlay:hover{
     opacity: 0.2;
     background-color: black;
-}
-
-.container{
+  }
+  
+  .container{
     flex: 1;
-}
-
-.add-btn{
+  }
+  
+  .add-btn{
     background-color:  #fe424d !important;
     border: none !important;
-}
-
-
-.show-img{
-
-    height:30vh;   
- 
- 
-} 
-
-
-.card-show{
-
+  }
+  
+  
+  .show-img{
+  
+    height:30vh;
+  
+  
+  } 
+  
+  
+  .card-show{
+  
     padding-left: 0%;
     padding-right: 0%;
-
-}
-
-
-
-
-
-
+  
+  }

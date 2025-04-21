@@ -1,6 +1,6 @@
 <%= layout("/layouts/boilerplate")%>
     <h3>Edit your listing </h3>
-    <form method="post" action="/listings/<%= listing._id %>?_method=PUT"   novalidate class="needs-validation">   >
+    <form method="post" action="/listings/<%= listing._id %>?_method=PUT"   novalidate class="needs-validation"  enctype="multipart/form-data" >   
 
         <div class="mb-3">
             <lable class="form-label" for="title">Title</lable>
@@ -13,10 +13,16 @@
            <textarea class="form-control" name="listing[description]"  required ><%=listing.description%></textarea>
           </div> 
     
+
+          <div class="mb-3">
+              original listing image 
+              <img src="<%=originalurl %>" />
+          </div>
+
     
           <div class="mb-3">
-           <lable class="form-label" for="image" >Image URL</lable>
-           <input class="form-control" name="listing[image]"  value="<%=listing.image%>"  type="text" required />
+           <lable class="form-label" for="image" >Upload new image </lable>
+           <input class="form-control" name="listing[image]"    type="file"  />
           </div>
           
           <div class="row ">

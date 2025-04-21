@@ -48,7 +48,9 @@ module.exports.editlisting = async (req,res)=>{
       req.flash("error" , "listing do you requested does not exiest!");
       res.redirect("/listings");
     }
-    res.render("listings/edit.ejs" ,{listing});
+   let originalurl =  listing.image.url;
+    originalurl = originalurl.replace("/upload" , "/upload/w_250");
+    res.render("listings/edit.ejs" ,{listing ,originalurl});
   };
 
 
